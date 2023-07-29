@@ -1,10 +1,10 @@
 name: rest_login
-description: A new Flutter package project.
-version: 0.0.1
-homepage:
+description: A Flutter package to quickly build login screens writing a minimal number of code lines with automatic REST API authentication feature.
+version: 1.0.0
+homepage: https://github.com/MosaabBleik/rest_login
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: '>=2.17.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

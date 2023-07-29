@@ -99,7 +99,7 @@ class RestLogin extends StatelessWidget {
   final TextStyle? fieldStyle;
   final TextStyle? labelStyle;
   final TextStyle? hintStyle;
-  final bool obsecurePassword;
+  final bool obscurePassword;
   final bool hasBorder;
 
   ///
@@ -169,7 +169,7 @@ class RestLogin extends StatelessWidget {
 
   ///
   /// Callback function.
-  final Function() onForgot;
+  final Function()? onForgot;
 
   // Remember me option
   ///
@@ -238,7 +238,7 @@ class RestLogin extends StatelessWidget {
     this.fieldStyle,
     this.labelStyle,
     this.hintStyle,
-    required this.obsecurePassword,
+    required this.obscurePassword,
     this.hasBorder = false,
     this.visiblePassword = true,
     this.visiblePasswordIcon,
@@ -256,7 +256,14 @@ class RestLogin extends StatelessWidget {
     this.loginButtonBorderColor = Colors.black,
     this.loginButtonSplash = false,
     this.loginButtonHighlightColor = Colors.white24,
-    required this.loginText,
+    this.loginText = const Text(
+      "Login",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
     this.loginIcon,
     this.onLogin,
     this.withGoogle,
@@ -270,7 +277,7 @@ class RestLogin extends StatelessWidget {
       fontSize: 12,
       color: Colors.grey,
     ),
-    required this.onForgot,
+    this.onForgot,
     this.rememberMeOption = true,
     this.rememberMeText = "Remember me",
     this.rememberMeStyle,
@@ -294,6 +301,7 @@ class RestLogin extends StatelessWidget {
         if (response.statusCode == 200) {
           Map map = jsonDecode(response.body);
           Map data = map;
+          loginController!.data = map;
 
           for (int i = 0; i < loginController!.tokenPath.length; i++) {
             data = data[loginController!.tokenPath[i]];
@@ -476,7 +484,7 @@ class RestLogin extends StatelessWidget {
                           margin: fieldMargin,
                           child: TextFormField(
                             controller: passwordController,
-                            obscureText: obsecurePassword,
+                            obscureText: obscurePassword,
                             textInputAction: TextInputAction.done,
                             cursorColor: cursorColor,
                             style: fieldStyle,
@@ -511,7 +519,7 @@ class RestLogin extends StatelessWidget {
                               suffixIcon: IconButton(
                                 onPressed: onShowPassword,
                                 icon: visiblePasswordIcon ??
-                                    Icon(obsecurePassword
+                                    Icon(obscurePassword
                                         ? Icons.visibility_off
                                         : Icons.visibility),
                               ),
@@ -755,6 +763,7 @@ class LoginController {
   final bool hasLoading;
   final bool printToken;
   String? accessToken;
+  Map? data;
 
   LoginController({
     required this.url,
