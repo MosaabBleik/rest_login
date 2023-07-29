@@ -39,12 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   TextEditingController emailCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
-  bool obscurePassword = true;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {

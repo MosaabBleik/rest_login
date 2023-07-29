@@ -11,29 +11,97 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter package to quickly build login screens writing a minimal number of code lines
+with automatic REST API authentication feature.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+  - The quickest way to build a login page with Flutter.
+  - Automatic login freature via REST API.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+All you need to do is import the package and use it as any other widget.
+It uses the (http) package for the REST API authentication.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+import 'package:flutter/material.dart';
+import 'package:rest_login/rest_login.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  LoginController controller = LoginController(
+    url: "https://example/api/login",
+    body: {
+      "email": "example@gmail.com",
+      "password": "123456",
+    },
+    headers: {"Content-Type": "application/json"}, // Default value
+    tokenPath: ["data"],
+    apiTokenKey: "accessToken",
+    hasLoading: true, // Default value
+  );
+
+  TextEditingController emailCon = TextEditingController();
+  TextEditingController passwordCon = TextEditingController();
+
+  bool obscurePassword = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return RestLogin(
+      loginController: controller,
+      emailController: emailCon,
+      passwordController: passwordCon,
+      context: context,
+      obscurePassword: obscurePassword,
+      rememberMeOption: false,
+      onShowPassword: () {
+        setState(() {
+          obscurePassword = !obscurePassword;
+        });
+      },
+      loginOptions: const ["google", "apple"],
+      withGoogle: () {
+        // Sign in with Google
+      },
+      withApple: () {
+        // Sign in with Apple
+      },
+      afterLogin: () {
+        debugPrint(controller.accessToken);
+      },
+    );
+  }
+}
+
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+This is my first published package.
+If you find any bugs, errors or something needs to be imporved, contact me with my email.
